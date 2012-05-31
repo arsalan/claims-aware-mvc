@@ -1,0 +1,22 @@
+﻿@using Microsoft.IdentityModel.Claims;
+@{
+    var claims = new Dictionary<dynamic, dynamic>();
+    var id = this.Context.User.Identity as ClaimsIdentity;
+    if (id != null)
+    {
+        foreach (var claim in id.Claims)
+        {
+            claims[claim.ClaimType] = claim.Value;
+        }
+    }
+}
+<h1>@ViewBag.Message</h1>
+<h1>Claims Obtained From STS</h1>
+<ol>
+    @foreach (var claim in claims)
+    {
+        <li><h3>@claim.Key => @claim.Value</h3></li>
+    }
+</ol>
+
+@Html.ActionLink("Home", "Index")

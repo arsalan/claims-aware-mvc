@@ -1,0 +1,33 @@
+﻿
+<h1>Welcome to the Demo Relying Party ASP.Net MVC application.</h1>
+@using Microsoft.IdentityModel.Claims;
+@{
+    var claims = new Dictionary<dynamic, dynamic>();
+    var id = this.Context.User.Identity as ClaimsIdentity;
+    if (id != null)
+    {
+        foreach (var claim in id.Claims)
+        {
+            claims[claim.ClaimType] = claim.Value;
+        }
+    }
+}
+
+@if (claims.Count > 0)
+{
+    <h1>Claims Obtained From STS</h1>
+    <ol>
+        @foreach (var claim in claims)
+        {
+            <li><h3>@claim.Key => @claim.Value</h3></li>
+        }
+    </ol>
+}
+else
+{
+    <h2>No claims yet from the STS</h2>
+}
+
+<h2>@Html.ActionLink("Client Only Section", "OnlyClientsAllowed")</h2>
+
+<h2>@Html.ActionLink("Partner Only Section", "OnlyPartnersAllowed")</h2>
